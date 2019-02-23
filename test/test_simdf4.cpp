@@ -49,6 +49,12 @@ TEST_CASE("simd float x4")
         REQUIRE(output[3] == Approx(3));
         REQUIRE(output[4] == Approx(4));
     }
+    SECTION("abs")
+    {
+        simdf4 val{ 0, -1, 2, -5 };
+        auto abs = val.abs();
+        REQUIRE(abs.to_array() == std::array<float, 4>{ 0, 1, 2, 5 });
+    }
     SECTION("compare")
     {
         simdf4 a{ -2, 0, 1, 4 };

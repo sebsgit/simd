@@ -115,27 +115,33 @@ public:
         xi = vrsqrtsq_f32(this->_d * xi, xi) * xi;
         return simd{ vrsqrtsq_f32(this->_d * xi, xi) * xi * this->_d };
     }
+    simd abs() const noexcept
+    {
+        return simd{ vabsq_f32(this->_d) };
+    }
+
+    uint32x4_t compare_native(const simd& other, compare_flags flag) const noexcept
+    {
+        switch (flag) {
+        case compare_flags::equal:
+            return vceqq_f32(this->_d, other._d);
+        case compare_flags::lower:
+            return vcltq_f32(this->_d, other._d);
+        case compare_flags::lower_equal:
+            return vcleq_f32(this->_d, other._d);
+        case compare_flags::greater:
+            return vcgtq_f32(this->_d, other._d);
+        case compare_flags::greater_equal:
+            return vcgeq_f32(this->_d, other._d);
+        case compare_flags::not_equal:
+            return vmvnq_u32(vceqq_f32(this->_d, other._d));
+        }
+        return uint32x4_t{};
+    }
 
     simd compare(const simd& other, compare_flags flag) const noexcept
     {
-        auto uint_result = [&]() {
-            switch (flag) {
-            case compare_flags::equal:
-                return vceqq_f32(this->_d, other._d);
-            case compare_flags::lower:
-                return vcltq_f32(this->_d, other._d);
-            case compare_flags::lower_equal:
-                return vcleq_f32(this->_d, other._d);
-            case compare_flags::greater:
-                return vcgtq_f32(this->_d, other._d);
-            case compare_flags::greater_equal:
-                return vcgeq_f32(this->_d, other._d);
-            case compare_flags::not_equal:
-                return vmvnq_u32(vceqq_f32(this->_d, other._d));
-            }
-            return uint32x4_t{};
-        }();
-        return simd{ vcvtq_f32_u32(uint_result) };
+        return simd{ vcvtq_f32_u32(this->compare_native(other, flag)) };
     }
 
     static simd horizontal_add(const simd& a, const simd& b) noexcept

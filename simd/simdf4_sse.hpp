@@ -96,6 +96,11 @@ public:
     {
         return simd{ _mm_sqrt_ps(this->_d) };
     }
+    simd abs() const noexcept
+    {
+        const auto mask = _mm_set1_ps(-1 * 0.0f);
+        return simd{ _mm_andnot_ps(mask, this->_d) };
+    }
 
     simd compare(const simd& other, compare_flags flag) const noexcept
     {
