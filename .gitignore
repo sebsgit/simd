@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+#other
+test/test_app/vec_test_gui.pro.user
+test/build-*

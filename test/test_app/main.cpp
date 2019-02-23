@@ -6,7 +6,8 @@
 
 #include "simd/simdf4.hpp"
 
-int main(int argc, char* argv[])
+#ifdef Q_OS_ANDROID
+static void runTests(int argc, char** argv)
 {
     QTemporaryFile tmp;
     tmp.open();
@@ -24,6 +25,16 @@ int main(int argc, char* argv[])
         qDebug() << x;
 
     fclose(x);
+}
+#else
+static void runTests(int argc, char** argv)
+{
+    Catch::Session().run(argc, argv);
+}
+#endif
 
+int main(int argc, char* argv[])
+{
+    runTests(argc, argv);
     return 0;
 }

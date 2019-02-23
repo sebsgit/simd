@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
-#include "simd_base.hpp"
-#include "simdf4.hpp"
+#include "simd/simd_base.hpp"
+#include "simd/simdf4.hpp"
 #include <iostream>
 
 TEST_CASE("simd float x4")
