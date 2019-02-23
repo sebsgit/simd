@@ -38,6 +38,17 @@ TEST_CASE("simd float x4")
         REQUIRE(res[2] == Approx(sqrt(4)));
         REQUIRE(res[3] == Approx(sqrt(9)));
     }
+    SECTION("unaligned load / store")
+    {
+        alignas(4) std::array<float, 5> data{ 0, 1, 2, 3, 4 };
+        simdf4 val(data.data() + 1);
+        alignas(4) std::array<float, 5> output;
+        val.store(output.data() + 1);
+        REQUIRE(output[1] == Approx(1));
+        REQUIRE(output[2] == Approx(2));
+        REQUIRE(output[3] == Approx(3));
+        REQUIRE(output[4] == Approx(4));
+    }
     SECTION("compare")
     {
         simdf4 a{ -2, 0, 1, 4 };

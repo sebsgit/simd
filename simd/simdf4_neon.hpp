@@ -46,18 +46,13 @@ public:
         this->_d = vld1q_f32(data);
     }
     explicit simd(const float* input) noexcept
-        : _d(is_aligned(input, 16) ? vld1q_f32(input) : vld1q_f32(input))
+        : _d(vld1q_f32(input))
     {
     }
 
     void store(float* output, cache_coherence cache_flags = cache_coherence::coherent) const noexcept
     {
-        if (cache_flags == cache_coherence::coherent) {
-            vst1q_f32(output, this->_d);
-        } else if (cache_flags == cache_coherence::non_temporal) {
-            // assert aligned
-            vst1q_f32(output, this->_d);
-        }
+        this->store_aligned(output, cache_flags);
     }
 
     void store_aligned(float* output, cache_coherence cache_flags = cache_coherence::coherent) const noexcept
@@ -167,7 +162,7 @@ public:
         return simd{ vcombine_f32(v.val[0], v.val[1]) };
     }
 
-    static void transpose(simd& r0, simd& r1, simd& r2, simd& r3)
+    static void transpose(simd& r0, simd& r1, simd& r2, simd& r3) noexcept
     {
         float32x4x2_t t0 = vtrnq_f32(r0._d, r1._d);
         float32x4x2_t t1 = vtrnq_f32(r2._d, r3._d);

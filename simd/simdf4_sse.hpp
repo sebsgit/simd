@@ -37,7 +37,7 @@ public:
                 _mm_storeu_ps(output, this->_d);
             }
         } else if (cache_flags == cache_coherence::non_temporal) {
-            // assert aligned
+            //TODO: assert aligned
             _mm_stream_ps(output, this->_d);
         }
     }
@@ -135,7 +135,7 @@ public:
     {
         return simd{ _mm_unpackhi_ps(a._d, b._d) };
     }
-    static void transpose(simd& r0, simd& r1, simd& r2, simd& r3)
+    static void transpose(simd& r0, simd& r1, simd& r2, simd& r3) noexcept
     {
         _MM_TRANSPOSE4_PS(r0._d, r1._d, r2._d, r3._d);
     }
