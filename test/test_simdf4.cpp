@@ -105,4 +105,16 @@ TEST_CASE("simd float x4")
         res = simdf4::shuffle<2, 1, 0, 3>(a, b);
         REQUIRE(res.to_array() == std::array<float, 4>{ 3, 2, 5, 8 });
     }
+    SECTION("transposition")
+    {
+        simdf4 row0(0, 1, 2, 3);
+        simdf4 row1(4, 5, 6, 7);
+        simdf4 row2(8, 9, 10, 11);
+        simdf4 row3(12, 13, 14, 15);
+        simdf4::transpose(row0, row1, row2, row3);
+        REQUIRE(row0.to_array() == std::array<float, 4>{ 0, 4, 8, 12 });
+        REQUIRE(row1.to_array() == std::array<float, 4>{ 1, 5, 9, 13 });
+        REQUIRE(row2.to_array() == std::array<float, 4>{ 2, 6, 10, 14 });
+        REQUIRE(row3.to_array() == std::array<float, 4>{ 3, 7, 11, 15 });
+    }
 }

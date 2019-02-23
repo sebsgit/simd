@@ -167,6 +167,16 @@ public:
         return simd{ vcombine_f32(v.val[0], v.val[1]) };
     }
 
+    static void transpose(simd& r0, simd& r1, simd& r2, simd& r3)
+    {
+        float32x4x2_t t0 = vtrnq_f32(r0._d, r1._d);
+        float32x4x2_t t1 = vtrnq_f32(r2._d, r3._d);
+        r0._d = vcombine_f32(vget_low_f32(t0.val[0]), vget_low_f32(t1.val[0]));
+        r1._d = vcombine_f32(vget_low_f32(t0.val[1]), vget_low_f32(t1.val[1]));
+        r2._d = vcombine_f32(vget_high_f32(t0.val[0]), vget_high_f32(t1.val[0]));
+        r3._d = vcombine_f32(vget_high_f32(t0.val[1]), vget_high_f32(t1.val[1]));
+    }
+
 private:
     float32x4_t _d;
 };

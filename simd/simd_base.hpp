@@ -1,10 +1,13 @@
 #pragma once
 
 #include <array>
+#include <iosfwd>
 #ifndef __ANDROID__
+extern "C" {
 #include <emmintrin.h>
 #include <pmmintrin.h>
 #include <xmmintrin.h>
+}
 #endif
 
 template <typename T, size_t ValueCount>
@@ -54,11 +57,7 @@ public:
 
     auto to_array() const noexcept
     {
-#ifdef _MSC_VER
-        __declspec(align(16)) std::array<typename SimdClass::type, SimdClass::value_count> result;
-#else
-        std::array<typename SimdClass::type, SimdClass::value_count> result __attribute__((aligned(16)));
-#endif
+        alignas(16) std::array<typename SimdClass::type, SimdClass::value_count> result;
         static_cast<const SimdClass*>(this)->store_aligned(result.data());
         return result;
     }
