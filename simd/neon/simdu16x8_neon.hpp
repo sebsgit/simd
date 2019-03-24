@@ -87,11 +87,9 @@ public:
     }
     uint16_t sum() const noexcept
     {
-        //TODO optimize
         uint16x4_t res = vadd_u16(vget_low_u16(this->_d), vget_high_u16(this->_d));
-        alignas(16) uint16_t tmp[4];
-        vst1_u16(tmp, res);
-        return tmp[0] + tmp[1] + tmp[2] + tmp[3];
+        res = vpadd_u16(res, res);
+        return vget_lane_u16(res, 0) + vget_lane_u16(res, 1);
     }
 
 private:
