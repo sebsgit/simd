@@ -1,5 +1,6 @@
 #pragma once
-#include "simd_base.hpp"
+
+#include "../simd_base.hpp"
 
 template <>
 class simd<float, 4> : public simd_common<simd<float, 4>> {

@@ -30,9 +30,10 @@ HEADERS += \
     ../catch.hpp \
     ../../simd/simd_base.hpp \
     ../../simd/simdf4.hpp \
-    ../../simd/simdu16x8_sse.hpp \
-    ../../simd/simdu16x8.hpp \
-    ../../simd/neon/simdu16x8_neon.hpp
+    ../../simd/simdu16x8.hpp
 
-android:HEADERS += ../../simd/simdf4_neon.hpp
-!android:HEADERS += ../../simd/simdf4_sse.hpp
+
+android:HEADERS += ../../simd/neon/simdf4_neon.hpp \
+    ../../simd/neon/simdu16x8_neon.hpp
+!android:HEADERS += ../../simd/x86/simdf4_sse.hpp \
+    ../../simd/x86/simdu16x8_sse.hpp

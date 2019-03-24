@@ -1,6 +1,6 @@
 #pragma once
 
-#include "simd_base.hpp"
+#include "../simd_base.hpp"
 
 #include <immintrin.h>
 #include <smmintrin.h>
