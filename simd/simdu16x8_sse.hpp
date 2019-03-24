@@ -3,6 +3,7 @@
 #include "simd_base.hpp"
 
 #include <immintrin.h>
+#include <smmintrin.h>
 
 template <>
 class simd<uint16_t, 8> : public simd_common<simd<uint16_t, 8>> {
@@ -81,6 +82,17 @@ public:
     {
         this->_d = _mm_mullo_epi16(this->_d, other._d);
         return *this;
+    }
+    uint16_t sum() const noexcept
+    {
+        //   0, 1   2,3   4,5,   6,7
+        // + 2, 3   0,1   6,7    4,5
+        __m128i result = _mm_adds_epu16(this->_d, _mm_shuffle_epi32(this->_d, _MM_SHUFFLE(2, 3, 0, 1)));
+        // + 4,5    6,7   0,1,   2,3
+        result = _mm_adds_epu16(result, _mm_shuffle_epi32(this->_d, _MM_SHUFFLE(1, 0, 3, 2)));
+        // + 6,7    4,5  2,3,   0,1
+        result = _mm_adds_epu16(result, _mm_shuffle_epi32(this->_d, _MM_SHUFFLE(0, 1, 2, 3)));
+        return _mm_extract_epi16(result, 0) + _mm_extract_epi16(result, 1);
     }
 
 private:
