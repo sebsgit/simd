@@ -88,9 +88,10 @@ public:
     uint16_t sum() const noexcept
     {
         //TODO optimize
-        alignas(16) uint16_t tmp[8];
-        vst1q_u16(tmp, this->_d);
-        return tmp[0] + tmp[1] + tmp[2] + tmp[3] + tmp[4] + tmp[5] + tmp[6] + tmp[7];
+        uint16x4_t res = vadd_u16(vget_low_u16(this->_d), vget_high_u16(this->_d));
+        alignas(16) uint16_t tmp[4];
+        vst1_u16(tmp, res);
+        return tmp[0] + tmp[1] + tmp[2] + tmp[3];
     }
 
 private:
