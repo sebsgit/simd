@@ -92,7 +92,7 @@ public:
         result = _mm_adds_epu16(result, _mm_shuffle_epi32(this->_d, _MM_SHUFFLE(1, 0, 3, 2)));
         // + 6,7    4,5  2,3,   0,1
         result = _mm_adds_epu16(result, _mm_shuffle_epi32(this->_d, _MM_SHUFFLE(0, 1, 2, 3)));
-        return _mm_extract_epi16(result, 0) + _mm_extract_epi16(result, 1);
+        return static_cast<uint16_t>(_mm_extract_epi16(result, 0) + _mm_extract_epi16(result, 1));
     }
 
 private:

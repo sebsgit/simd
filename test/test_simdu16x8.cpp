@@ -28,5 +28,7 @@ TEST_CASE("simd u16 x 8")
         REQUIRE(result.to_array() == std::array<uint16_t, 8>{ 0, 4, 8, 12, 16, 20, 24, 28 });
 
         REQUIRE(result.sum() == 112);
+        REQUIRE(simdu16x8().sum() == 0);
+        REQUIRE(simdu16x8(1).sum() == 8);
     }
 }
