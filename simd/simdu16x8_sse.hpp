@@ -2,6 +2,8 @@
 
 #include "simd_base.hpp"
 
+#include <immintrin.h>
+
 template <>
 class simd<uint16_t, 8> : public simd_common<simd<uint16_t, 8>> {
 public:
@@ -51,6 +53,34 @@ public:
     void store_aligned(uint16_t* output) const noexcept
     {
         _mm_store_si128(reinterpret_cast<__m128i*>(output), this->_d);
+    }
+
+    simd operator+(const simd& other) const noexcept
+    {
+        return simd(_mm_adds_epu16(this->_d, other._d));
+    }
+    simd& operator+=(const simd& other) noexcept
+    {
+        this->_d = _mm_adds_epu16(this->_d, other._d);
+        return *this;
+    }
+    simd operator-(const simd& other) const noexcept
+    {
+        return simd(_mm_subs_epu16(this->_d, other._d));
+    }
+    simd& operator-=(const simd& other) noexcept
+    {
+        this->_d = _mm_subs_epu16(this->_d, other._d);
+        return *this;
+    }
+    simd operator*(const simd& other) const noexcept
+    {
+        return simd(_mm_mullo_epi16(this->_d, other._d));
+    }
+    simd& operator*=(const simd& other) noexcept
+    {
+        this->_d = _mm_mullo_epi16(this->_d, other._d);
+        return *this;
     }
 
 private:
