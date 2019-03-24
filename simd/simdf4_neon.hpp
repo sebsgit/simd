@@ -20,7 +20,7 @@ inline float32x4_t neon_shuffle<0, 1, 2, 3>(float32x4_t a, float32x4_t b)
     return vcombine_f32(vget_low_f32(a), vget_high_f32(b));
 }
 
-} // namespace
+} // namespace priv
 
 template <>
 class simd<float, 4> : public simd_common<simd<float, 4>> {

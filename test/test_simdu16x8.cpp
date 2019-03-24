@@ -8,7 +8,7 @@ TEST_CASE("simd u16 x 8")
     SECTION("load / store")
     {
         std::array<uint16_t, 8> data = { 0, 1, 2, 3, 4, 5, 6, 7 };
-        alignas(16) std::array<uint16_t, 8> result = {};
+        alignas(16) std::array<uint16_t, 8> result;
         simdu16x8 s(data.data());
         s.store(result.data());
         REQUIRE(data == result);
