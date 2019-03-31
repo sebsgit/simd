@@ -41,6 +41,15 @@ public:
               inputHi[0], inputHi[1], inputHi[2], inputHi[3])
     {
     }
+    /**
+        Loads 8 unsigned 8 bit integers from memory and converts them to 16 bit values.
+        @param input Memory to load the values from. This pointer needs to point to allocation of at least 8 bytes.
+    */
+    explicit simd(const uint8_t* input) noexcept
+        : simd(input[0], input[1], input[2], input[3],
+              input[4], input[5], input[6], input[7])
+    {
+    }
 
     void store(uint16_t* output) const noexcept
     {

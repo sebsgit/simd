@@ -15,6 +15,10 @@ TEST_CASE("simd u16 x 8")
         REQUIRE(simdu16x8(5).to_array() == std::array<uint16_t, 8>{ 5, 5, 5, 5, 5, 5, 5, 5 });
         REQUIRE(simdu16x8(5, 4, 3, 7, 1, 0, 0, 2).to_array() == std::array<uint16_t, 8>{ 5, 4, 3, 7, 1, 0, 0, 2 });
         REQUIRE(simdu16x8(data.data(), data.data() + 4).to_array() == data);
+
+        std::array<uint8_t, 8> data8x8 = { 0, 1, 2, 3, 4, 5, 6, 7 };
+        s = simdu16x8(data8x8.data());
+        REQUIRE(s.to_array() == data);
     }
     SECTION("arthmetic")
     {
